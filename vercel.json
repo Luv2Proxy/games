@@ -1,8 +1,10 @@
 {
   "builds": [
-    { "src": "alu-games-main/**/*", "use": "@vercel/static" }
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "alu-games-main/**", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/alu-games-main/(.*)", "dest": "/alu-games-main/$1" }
+    { "src": "/alu-games-main/(.*)", "dest": "/alu-games-main/$1" },
+    { "src": "/", "dest": "/index.html" }
   ]
 }
