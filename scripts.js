@@ -1,66 +1,46 @@
 // Path to the games folder
 const gamesPath = './alu-games-main/';
 
-// A function to check if a file exists
-
-function fileExists(fileUrl){
-
-    var http = new XMLHttpRequest();
-
-    http.open('HEAD', fileUrl, false);
-    http.send();
-
-    return http.status != 404;
-
-}
-
-// Add buttons dynamically with logos
+// Function to load games from games.json
 async function loadGameList() {
     const gameList = document.getElementById('game-list');
 
     try {
-        const response = await fetch(gamesPath); // Fetch directory listing
-        const text = await response.text();
+        // Fetch games.json
+        const response = await fetch('games.json');
+        const data = await response.json();
 
-        // Parse folder names from the directory listing
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, 'text/html');
-        const links = Array.from(doc.querySelectorAll('a')).map(link => link.href);
+        // Loop through game folders
+        data.games.forEach(folderName => {
+            // Create a button
+            const button = document.createElement('button');
+            button.classList.add('game-button');
+            button.onclick = () => loadGame(folderName);
 
-        links.forEach(link => {
-            const folderName = link.split('/').filter(Boolean).pop(); // Extract folder name
-            if (folderName && folderName !== '..') {
-                // Create the button
-                const button = document.createElement('button');
-                button.classList.add('game-button');
-                button.onclick = () => loadGame(folderName);
+            // Add the logo
+            const logo = document.createElement('img');
+            logo.src = `${gamesPath}${folderName}/logo.png`;
+            logo.alt = folderName;
+            logo.classList.add('game-logo');
 
-                // Add the logo
-                const logoPath = `${gamesPath}${folderName}/logo.png`;
-                const logo = document.createElement('img');
-                
-                logo.src = logoPath;
-                logo.alt = `${folderName}`;
-                logo.classList.add('game-logo');
+            // Add the game name
+            const text = document.createElement('span');
+            text.textContent = folderName;
 
-                // Add the game name
-                const text = document.createElement('span');
-                text.textContent = folderName;
+            // Append logo and text to the button
+            button.appendChild(logo);
+            button.appendChild(text);
 
-                // Append logo and text to the button
-                button.appendChild(logo);
-                button.appendChild(text);
-
-                // Append the button to the game list
-                gameList.appendChild(button);
-            }
+            // Append the button to the game list
+            gameList.appendChild(button);
         });
+
     } catch (error) {
         console.error('Error loading game list:', error);
     }
 }
 
-// Load a game into the iframe
+// Function to load a selected game into the iframe
 function loadGame(folderName) {
     const gameFrame = document.getElementById('game-frame');
     gameFrame.src = `${gamesPath}${folderName}/index.html`;
