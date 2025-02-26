@@ -63,7 +63,7 @@ async function loadGameList() {
 // Load a game into the iframe
 function loadGame(folderName) {
     const gameFrame = document.getElementById('game-frame');
-    gameFrame.src = `${gamesPath}${folderName}/index.html`;
+    gameFrame.src = `${gamesPath}${folderName}/`;
 }
 
 // Initialize the game list
