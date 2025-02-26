@@ -4,76 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALU Games</title>
+    <link rel="stylesheet" href="/games/styles.css">
 </head>
 <body>
-    <style>
-        body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background-color: #333;
-    color: white;
-    padding: 1rem 0;
-}
-
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-}
-
-#game-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-}
-
-button.game-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 1rem;
-    width: 150px;
-    height: 150px;
-    border: none;
-    background-color: #007BFF;
-    color: white;
-    border-radius: 10px;
-    cursor: pointer;
-    text-align: center;
-}
-
-button.game-button:hover {
-    background-color: #0056b3;
-}
-
-button.game-button img.game-logo {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    margin-bottom: 0.5rem;
-}
-
-#game-container {
-    margin-top: 1rem;
-    width: 80%;
-    height: 600px;
-}
-
-iframe {
-    width: 90%;
-    height: 100%;
-    border: none;
-    margin-bottom: 2rem;
-}
-    </style>
     <header>
         <h1>Welcome to ALU Games</h1>
         <p>Select a game to play!</p>
@@ -86,77 +19,6 @@ iframe {
             <iframe id="game-frame" src="" frameborder="0"></iframe>
         </div>
     </main>
-    <script>
-        // Path to the games folder
-const gamesPath = './alu-games-main/';
-
-// A function to check if a file exists
-
-function fileExists(fileUrl){
-
-    var http = new XMLHttpRequest();
-
-    http.open('HEAD', fileUrl, false);
-    http.send();
-
-    return http.status != 404;
-
-}
-
-// Add buttons dynamically with logos
-async function loadGameList() {
-    const gameList = document.getElementById('game-list');
-
-    try {
-        const response = await fetch(gamesPath); // Fetch directory listing
-        const text = await response.text();
-
-        // Parse folder names from the directory listing
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, 'text/html');
-        const links = Array.from(doc.querySelectorAll('a')).map(link => link.href);
-
-        links.forEach(link => {
-            const folderName = link.split('/').filter(Boolean).pop(); // Extract folder name
-            if (folderName && folderName !== '..') {
-                // Create the button
-                const button = document.createElement('button');
-                button.classList.add('game-button');
-                button.onclick = () => loadGame(folderName);
-
-                // Add the logo
-                const logoPath = `${gamesPath}${folderName}/logo.png`;
-                const logo = document.createElement('img');
-                
-                logo.src = logoPath;
-                logo.alt = `${folderName}`;
-                logo.classList.add('game-logo');
-
-                // Add the game name
-                const text = document.createElement('span');
-                text.textContent = folderName;
-
-                // Append logo and text to the button
-                button.appendChild(logo);
-                button.appendChild(text);
-
-                // Append the button to the game list
-                gameList.appendChild(button);
-            }
-        });
-    } catch (error) {
-        console.error('Error loading game list:', error);
-    }
-}
-
-// Load a game into the iframe
-function loadGame(folderName) {
-    const gameFrame = document.getElementById('game-frame');
-    gameFrame.src = `${gamesPath}${folderName}/index.html`;
-}
-
-// Initialize the game list
-loadGameList();
-    </script>
+    <script src="games/scripts.js" defer></script>
 </body>
 </html>
