@@ -1,5 +1,5 @@
 // Path to the games JSON file
-const gamesJsonPath = './games/games.json';
+const gamesJsonPath = './games.json';
 const gamesPath = './games/alu-games-main/';
 
 // Add buttons dynamically with logos
