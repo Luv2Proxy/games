@@ -22,7 +22,7 @@ const games = [
 ];
 
 // Path to the games folder
-const gamesPath = '/games/alu-games-main/';
+const gamesPath = 'https://luv2proxy.github.io/games/alu-games-main/';
 
 // Load the game list
 function loadGameList() {
