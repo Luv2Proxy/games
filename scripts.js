@@ -1,5 +1,5 @@
 // Path to the games folder
-const gamesPath = './alu-games-main/';
+const gamesPath = './games/alu-games-main/';
 
 // A function to check if a file exists
 
