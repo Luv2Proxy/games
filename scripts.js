@@ -22,7 +22,7 @@ const games = [
 ];
 
 // Path to the games folder
-const gamesPath = '/alu-games-main/';
+const gamesPath = './alu-games-main/';
 
 // Load the game list
 function loadGameList() {
